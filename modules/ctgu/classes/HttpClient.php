@@ -12,19 +12,20 @@ class HttpClient {
     private $handle;
     private $check_code;
     private $param = array(
-        "__EVENTVALIDATION" => '%2FwEWBQK0rZn5BQKl1bKzCQKC3IeGDAK1qbSRCwLO44u1DRoeeCML9VwaJp827ywoonHLTN5B',
-        "__VIEWSTATE" => '%2FwEPDwUKMTQ4NjM5NDA3OWQYAQUeX19Db250cm9sc1JlcXVpcmVQb3N0QmFja0tleV9fFgEFCGJ0bkxvZ2luxH3FxhKrV5DSLNmTU4lmM%2B8noJI%3D',
+        "__EVENTVALIDATION" => "/wEWBQLsrKSiDwKl1bKzCQKC3IeGDAK1qbSRCwLO44u1DW1K6e1+jsPEQxbgL4N9Ze0RznXg",
+        "__VIEWSTATE" => "/wEPDwUKMTQ4NjM5NDA3OQ9kFgICAw9kFgICCw8PFgIeBFRleHQFIueZu+W9leWksei0pe+8miDpqozor4HnoIHkuI3lr7nvvIFkZBgBBR5fX0NvbnRyb2xzUmVxdWlyZVBvc3RCYWNrS2V5X18WAQUIYnRuTG9naW4f5vzIScELerkioTADRM3OJ2n+dg==",
         "btnLogin.x" => "23",
         "btnLogin.y" => "15",
+        "CheckCode" => '',
+        "txtPassword" => '138855',
         "txtUserName" => '2011112243',
-        "txtPassword" => '13855',
     );
 
     public function __construct($check_code, $cookie = NULL) {
         $this->check_code = $check_code;
         $this->cookie = $cookie;
+        $this->param['CheckCode'] = $this->check_code;
         $this->handle = curl_init();
-
         $this->init();
     }
 
@@ -36,15 +37,11 @@ class HttpClient {
     }
 
     public function get($url) {
-      
+        $data = http_build_query($this->param, '&');
         curl_setopt($this->handle, CURLOPT_URL, $url);
-       // curl_setopt($this->handle, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($this->handle, CURLOPT_POSTFIELDS, $data);
+
         return $this->execue();
-        /* -----使用COOKIE----- */
-//$post = "id=user&pwd=123456"; //POST数据
-//curl_setopt($ch1, CURLOPT_HEADER, 1); //将头文件的信息作为数据流输出
-        //发送POST数据
-//关闭curl
     }
 
     /**
