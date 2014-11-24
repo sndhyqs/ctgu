@@ -12,4 +12,6 @@ return array
     'base' => 'http://210.42.38.26:81/jwc_glxt/',
     'check_code' => 'http://210.42.38.26:81/jwc_glxt/ValidateCode.aspx',
     'temp_path' => APPPATH . '/data/temp.jpg',
+    'score' => "http://210.42.38.26:81/jwc_glxt/Student_Score/Score_Query.aspx",
+    'course' => 'http://210.42.38.26:81/jwc_glxt/Course_Choice/Course_Schedule.aspx',
 );
