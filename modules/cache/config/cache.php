@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 return array
 (
-/*	'memcache' => array(
+	'memcache' => array(
 		'driver'             => 'memcache',
 		'default_expire'     => 3600,
 		'compression'        => FALSE,              // Use Zlib compression (can cause issues with integers)
@@ -66,5 +66,5 @@ return array
 			'.svn'
 		)
 	)
-*/
+
 );
