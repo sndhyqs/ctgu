@@ -19,17 +19,15 @@ class BaseCtgu {
         "btnLogin.x" => "23",
         "btnLogin.y" => "15",
         "CheckCode" => '',
-        "txtPassword" => '138855',
-        "txtUserName" => '2011112243',
+        "txtPassword" => '',
+        "txtUserName" => '',
     );
 
-    public function __construct() {
-
+    public function __construct($userame, $password) {
+        $this->login_param['txtUserName'] = $userame;
+        $this->login_param['txtPassword'] = $password;
         $this->config = Kohana::$config->load('ctgu');
-        $this->cookie = Cache::instance()->get('cookie');
-        if ($this->cookie == null) {
-            $this->login();
-        }
+        $this->cookie = Cache::instance()->get('ctgu_' . $this->login_param['txtUserName']);
     }
 
     public function login() {
@@ -42,9 +40,14 @@ class BaseCtgu {
         $this->set_check_code();
         if ($this->cookie != NULL) {
             $http = new HttpClient($this->cookie);
-            $http->post($this->config->get('base'), $this->login_param);
-            Cache::instance()->set("cookie", $this->cookie, 1200);
-            $this->login_tag = TRUE;
+            $login_html = $http->post($this->config->get('base'), $this->login_param);
+            $login_tag = Analysis_Main::get_login_message($login_html);
+            if ($login_tag === TRUE) {
+                Cache::instance()->set('ctgu_' . $this->login_param['txtUserName'], $this->cookie, 1200);
+                $this->login_tag = TRUE;
+            } else {
+                return $login_tag;
+            }
         }
     }
 
@@ -62,9 +65,16 @@ class BaseCtgu {
         return $http->post($url, $dataArray);
     }
 
+    public function login_out() {
+        if ($this->login_tag) {
+            $http = new HttpClient($this->cookie);
+            $http->post($this->config->get('login_out'), $dataArray);
+        }
+    }
+
     private function set_check_code() {
         $code_file = $this->execute->body();
-        file_put_contents(APPPATH . '/data/temp.jpg', $code_file);
+        file_put_contents(APPPATH . '\data\temp.jpg', $code_file);
         $checkCode = new Check_Code;
         $code = $checkCode->discernCheckCode();
         if (strlen($code) == $this->check_code_len) {

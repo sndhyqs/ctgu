@@ -12,7 +12,7 @@ class Check_Main {
      * @param type $path 验证码存储地址
      */
     public function getCheckCode($path = NULL) {
-        $url = APPPATH . '/data/temp.jpg';
+        $url = APPPATH . 'data\temp.jpg';
         $im = imagecreatefromjpeg($url);
         if ($path && $path != "") {
             YImageTool::save($im, $path);

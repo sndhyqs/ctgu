@@ -136,10 +136,10 @@ Kohana::modules(array(
  * Set the routes. Each route must have a minimum of a name, a URI and a set of
  * defaults for the URI.
  */
-Route::set('api', 'api(<controller>(/<action>(/<id>)))')
+Route::set('api', 'api(/<controller>(/<action>(/<id>)))')
         ->defaults(array(
             'directory' => 'Api',
-            'controller' => 'home',
+            'controller' => 'Ctgu',
             'action' => 'index',
         ));
 Route::set('default', '(<controller>(/<action>(/<id>)))')
