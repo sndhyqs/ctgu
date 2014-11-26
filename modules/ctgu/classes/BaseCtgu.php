@@ -22,27 +22,39 @@ class BaseCtgu {
         "txtPassword" => '',
         "txtUserName" => '',
     );
+    private $error;
 
     public function __construct($userame, $password) {
         $this->login_param['txtUserName'] = $userame;
         $this->login_param['txtPassword'] = $password;
         $this->config = Kohana::$config->load('ctgu');
+        $this->error = Kohana::$config->load('error');
         $this->cookie = Cache::instance()->get('ctgu_' . $this->login_param['txtUserName']);
+        if ($this->cookie != NULL) {
+            $this->login_tag = TRUE;
+        }
     }
 
     public function login() {
+        echo "login start<br/>";
         $check_code_url = $this->config->get('check_code');
+        echo "check code read<br/>";
         try {
             $this->execute = Request::factory($check_code_url)->execute();
-        } catch (Exception $exc) {
-            exit();
+        } catch (Exception $e) {
+            return new BaseMessage(1, $this->error->get(1));
         }
-        $this->set_check_code();
+        echo "check code check <br/>";
+        if (!$this->set_check_code()) {
+            return new BaseMessage(2, $this->error->get(2));
+        }
         if ($this->cookie != NULL) {
+            echo "login <br/>";
             $http = new HttpClient($this->cookie);
             $login_html = $http->post($this->config->get('base'), $this->login_param);
             $login_tag = Analysis_Main::get_login_message($login_html);
-            if ($login_tag === TRUE) {
+            if (is_bool($login_tag) && $login_tag == TRUE) {
+                echo "login success<br/>";
                 Cache::instance()->set('ctgu_' . $this->login_param['txtUserName'], $this->cookie, 1200);
                 $this->login_tag = TRUE;
             } else {
@@ -68,7 +80,8 @@ class BaseCtgu {
     public function login_out() {
         if ($this->login_tag) {
             $http = new HttpClient($this->cookie);
-            $http->post($this->config->get('login_out'), $dataArray);
+            $http->get($this->config->get('login_out'));
+            Cache::instance()->delete('ctgu_' . $this->login_param['txtUserName']);
         }
     }
 
@@ -81,7 +94,9 @@ class BaseCtgu {
             $this->sccuss_tag = TRUE;
             $this->login_param['CheckCode'] = $code;
             $this->cookie = $this->execute->headers('set-cookie');
+            return TRUE;
         }
+        return FALSE;
     }
 
     public function get_login_tag() {

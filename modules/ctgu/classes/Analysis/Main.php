@@ -11,12 +11,14 @@
  */
 class Analysis_Main {
 
-    public static $logined_html_length = 200;
+    public static $logined_html_length = 161;
     public static $config;
+    public static $error;
 
     public static function init() {
         self::$config = Kohana::$config->load('ctgu'); //引入解析模板，在配置文件中
-        Kohana::load('/lib/html_dom.php'); //引入解析类
+        self::$error = Kohana::$config->load('error');
+        include_once '/lib/html_dom.php'; //引入解析类
     }
 
     public static function get_score($html) {
@@ -30,7 +32,7 @@ class Analysis_Main {
         foreach ($tr as $key => $value) {
             foreach ($score_model as $key => $v) {
                 $temp = $value->children($v)->innertext();
-                $data[$key] = urlencode($temp);
+                $data[$key] = $temp;
             }
             array_push($data_array, $data);
         }
@@ -44,19 +46,23 @@ class Analysis_Main {
         $data = array();
         $data_array = array();
         $course_html = substr_replace($html, "", 0, strpos($html, '星期日'));
-        $dom = str_get_html($course_html);
-        $tr = $dom->find('tr');
-        $i = 0;
-        foreach ($tr as $key => $value) {
-            for ($index = 0; $index < 6; $index++) {
-                $t = $value->children($index)->innertext();
-                $data['t' . $index] = urlencode($t);
+        try {
+            $dom = str_get_html($course_html);
+            $tr = $dom->find('tr');
+            $i = 0;
+            foreach ($tr as $value) {
+                for ($index = 0; $index < 6; $index++) {
+                    $t = $value->children($index)->innertext();
+                    $data['t' . $index] = $t;
+                }
+                $data_array[$i] = $data;
+                $i++;
             }
-            $data_array[$i] = $data;
-            $i++;
+            $dom->clear();
+            unset($dom);
+        } catch (Exception $ex) {
+            return new BaseMessage(3, self::$error->get(3));
         }
-        $dom->clear();
-        unset($dom);
         return $data_array;
     }
 
@@ -65,26 +71,29 @@ class Analysis_Main {
      */
     public static function get_login_message($html) {
         self::init();
-        if (strlen($html) < self::$logined_html_length) {
+        if (strlen($html) == self::$logined_html_length) {
             return TRUE;
         } else {
-            $dom = str_get_html($html);
-            $message = $dom->find('span[id=lblMsg]');
-            foreach ($message as $value) {
-                $child = $value;
-            }
-            $font = $child->find("font");
-            foreach ($font as $value) {
-                $child = $value;
-            }
-            $data = $child->innertext();
-            $dom->clear();
-            unset($dom);
-            if ($data != NULL && $data != "") {
-                return $data;
+            try {
+                $dom = str_get_html($html);
+                $message = $dom->find('span[id=lblMsg]');
+                foreach ($message as $value) {
+                    $child = $value;
+                }
+                $font = $child->find("font");
+                foreach ($font as $value) {
+                    $child = $value;
+                }
+                $data = $child->innertext();
+                $dom->clear();
+                unset($dom);
+                if ($data != NULL && $data != "") {
+                    return new BaseMessage('4', $data);
+                }
+            } catch (Exception $exc) {
+                return new BaseMessage(3, self::$error->get('3'));
             }
         }
-
         return FALSE;
     }
 

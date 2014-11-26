@@ -11,15 +11,24 @@ defined('SYSPATH') or die('No direct script access.');
 class Controller_Api_CtguMain extends Controller_Main {
 
     protected $ctgu;
-    private $username;
-    private $password;
+    private $username = '2011112243';
+    private $password = '138855';
 
     private function login() {
-      echo  $username = $this->request->post('username');
-      echo  $password = $this->request->post('password');
+        $username = $this->request->post('username');
+        $password = $this->request->post('password');
+        if ($username != NULL && $password != NULL) {
+            $this->username = $username;
+            $this->password = $password;
+        }
+        $this->ctgu = new Ctgu($this->username, $this->password);
 
-//        $this->ctgu = new Ctgu($this->username, $this->password);
-//        echo $this->ctgu->login();
+        if (!$this->ctgu->get_login_tag()) {
+            echo "登入<br/>";
+            echo $this->ctgu->login();
+        } else {
+            echo '缓存<br/>';
+        }
     }
 
     public function before() {
