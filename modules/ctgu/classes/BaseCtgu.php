@@ -57,6 +57,7 @@ class BaseCtgu {
                 echo "login success<br/>";
                 Cache::instance()->set('ctgu_' . $this->login_param['txtUserName'], $this->cookie, 1200);
                 $this->login_tag = TRUE;
+                return $this->login_tag;
             } else {
                 return $login_tag;
             }

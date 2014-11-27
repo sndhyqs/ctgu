@@ -27,17 +27,21 @@ class Analysis_Main {
         $data_array = array();
         $score_model = self::$config->get('score_model');
         $score_html = substr_replace($html, "", 0, strpos($html, '所获学分'));
-        $dom = str_get_html($score_html);
-        $tr = $dom->find('tr');
-        foreach ($tr as $key => $value) {
-            foreach ($score_model as $key => $v) {
-                $temp = $value->children($v)->innertext();
-                $data[$key] = $temp;
+        try {
+            $dom = str_get_html($score_html);
+            $tr = $dom->find('tr');
+            foreach ($tr as $key => $value) {
+                foreach ($score_model as $key => $v) {
+                    $temp = $value->children($v)->innertext();
+                    $data[$key] = $temp;
+                }
+                array_push($data_array, $data);
             }
-            array_push($data_array, $data);
+            $dom->clear();
+            unset($dom);
+        } catch (Exception $ex) {
+            return new BaseMessage(3, self::$error->get(3));
         }
-        $dom->clear();
-        unset($dom);
         return $data_array;
     }
 

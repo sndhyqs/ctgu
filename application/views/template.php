@@ -3,9 +3,14 @@
     <head>
         <meta charset="UTF-8">
         <title><?php echo $title ?></title>
-        <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css">
+        <link rel="stylesheet" href="/public/bootstrap/css/bootstrap.css">
+        <link rel="stylesheet" href="/public/style.css">
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
-    <?php echo $countent ?>
+    <body>
+        <?php echo $navbar ?>
+        <?php echo $countent ?>
+    </body>
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="public/bootstrap/js/bootstrap.min.js"></script>
 </html>

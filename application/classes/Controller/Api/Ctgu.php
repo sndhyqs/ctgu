@@ -8,9 +8,23 @@
 class Controller_Api_Ctgu extends Controller_Api_CtguMain {
 
     public function action_index() {
+        $this->title = '成绩表';
+        $this->countent = View::factory('score_list');
         if ($this->ctgu->get_login_tag()) {
             $score_array = $this->ctgu->get_score();
-            print_r($score_array);
+            $this->countent->score_array = $score_array;
+        } else {
+            $this->countent->score_array = array();
+        }
+    }
+
+    public function action_course() {
+        $this->title = '课表';
+        $this->countent = View::factory('score_list');
+        if ($this->ctgu->get_login_tag()) {
+            $course_array = $this->ctgu->get_course();
+            $this->countent->course_array = $course_array;
+            print_r($course_array);
         }
     }
 

@@ -10,8 +10,13 @@ abstract class Controller_Main extends Controller_Template {
 
     protected $countent = NULL;
     protected $title = NULL;
+    protected $navbar = NULL;
+    protected $navbar_show = TRUE;
 
     public function before() {
+        if ($this->navbar_show) {
+            $this->navbar = View::factory('navbar');
+        }
         $this->title = '学习教程';
         parent::before();
     }
@@ -19,6 +24,8 @@ abstract class Controller_Main extends Controller_Template {
     public function after() {
         $this->template->bind('title', $this->title);
         $this->template->bind('countent', $this->countent);
+        $this->template->bind('navbar', $this->navbar);
+        $this->navbar->title = $this->title;
         parent::after();
     }
 
