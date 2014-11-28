@@ -55,7 +55,7 @@ class Analysis_Main {
             $tr = $dom->find('tr');
             $i = 0;
             foreach ($tr as $value) {
-                for ($index = 0; $index < 6; $index++) {
+                for ($index = 0; $index < 8; $index++) {
                     $t = $value->children($index)->innertext();
                     $data['t' . $index] = $t;
                 }

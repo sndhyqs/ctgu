@@ -11,7 +11,7 @@ class Controller_Home extends Controller_Main {
     }
 
     public function action_del() {
-        echo $this->title = "chen";
+    
     }
 
 }

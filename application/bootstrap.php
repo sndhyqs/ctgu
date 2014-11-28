@@ -131,14 +131,15 @@ Kohana::modules(array(
     // 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
     'ctgu' => MODPATH . 'ctgu',
 ));
-
+Cookie::$domain = '.ctguhelp.com';
+Cookie::$salt="1111111111111111111111111111111111111111111";
 /**
  * Set the routes. Each route must have a minimum of a name, a URI and a set of
  * defaults for the URI.
  */
-Route::set('api', 'api(/<controller>(/<action>(/<id>)))')
+Route::set('ctgu', 'ctgu(/<controller>(/<action>(/<id>)))')
         ->defaults(array(
-            'directory' => 'Api',
+            'directory' => 'Ctgu',
             'controller' => 'Ctgu',
             'action' => 'index',
         ));
