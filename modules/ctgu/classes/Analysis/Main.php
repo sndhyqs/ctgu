@@ -21,6 +21,10 @@ class Analysis_Main {
         include_once '/lib/html_dom.php'; //引入解析类
     }
 
+    public function get_name() {
+        
+    }
+
     public static function get_score($html) {
         self::init();
         $data = array();
@@ -39,6 +43,7 @@ class Analysis_Main {
             }
             $dom->clear();
             unset($dom);
+            rsort($data_array); //按年份和学期进行排序；
         } catch (Exception $ex) {
             return new BaseMessage(3, self::$error->get(3));
         }

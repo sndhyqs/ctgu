@@ -55,7 +55,7 @@ class Controller_Ctgu_CtguMain extends Controller_Main {
 
 }
 
-// End Welcome
+
 
 
 

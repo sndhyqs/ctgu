@@ -18,14 +18,17 @@ abstract class Controller_Main extends Controller_Template {
             $this->navbar = View::factory('navbar');
         }
         $this->title = '学习教程';
+        $this->navbar->year_array = array();
         parent::before();
     }
 
     public function after() {
+
         $this->template->bind('title', $this->title);
         $this->template->bind('countent', $this->countent);
         $this->template->bind('navbar', $this->navbar);
         $this->navbar->title = $this->title;
+
         parent::after();
     }
 

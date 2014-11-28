@@ -11,7 +11,8 @@ class Controller_Home extends Controller_Main {
     }
 
     public function action_del() {
-    
+        $this->navbar_show=FALSE;
+   
     }
 
 }
