@@ -23,8 +23,17 @@ class Ctgu extends BaseCtgu {
         if ($this->get_login_tag()) {
             $course_url = $this->config->get('course');
             $coure_html = $this->get($course_url);
-            return Analysis_Main::get_score($coure_html);
+            return Analysis_Main::get_course($coure_html);
         }
+    }
+
+    public function get_year_array($score_array) {
+        $year = array();
+        foreach ($score_array as $value) {
+            array_push($year, $value['year']);
+        }
+        $keys = array_unique($year);
+        return $keys;
     }
 
 }
