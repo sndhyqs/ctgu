@@ -35,8 +35,23 @@ class Controller_Ctgu_Ctgu extends Controller_Ctgu_CtguMain {
             $this->countent->score_array = array();
         }
     }
+    
+    protected function check_user($user, $password) {
+        $this->ctgu = new Ctgu($this->username, $this->password);
+        if (!$this->ctgu->get_login_tag()) {
+            echo "登入<br/>";
+            $login_tag = $this->ctgu->login();
+            if ($login_tag === TRUE) {
+                Model::factory('user')->save_user($this->username, $this->password);
+            } else {
+                echo $login_tag;
+            }
+        } else {
+            echo '缓存<br/>';
+        }
+    }
 
-    public function action_course() {
+        public function action_course() {
         $this->title = '课表';
         $this->countent = View::factory('course');
         if ($this->ctgu->get_login_tag()) {

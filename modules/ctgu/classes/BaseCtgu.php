@@ -34,7 +34,10 @@ class BaseCtgu {
             $this->login_tag = TRUE;
         }
     }
-
+    
+    /**
+     * 
+     */
     public function login() {
         echo "login start<br/>";
         $check_code_url = $this->config->get('check_code');
@@ -42,11 +45,11 @@ class BaseCtgu {
         try {
             $this->execute = Request::factory($check_code_url)->execute();
         } catch (Exception $e) {
-            return new BaseMessage(1, $this->error->get(1));
+            BaseMessage::instance(1, $this->error->get(1))->show();
         }
         echo "check code check <br/>";
         if (!$this->set_check_code()) {
-            return new BaseMessage(2, $this->error->get(2));
+            BaseMessage::instance(3, $this->error->get(3))->show();
         }
         if ($this->cookie != NULL) {
             echo "login <br/>";

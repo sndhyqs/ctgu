@@ -45,7 +45,7 @@ class Analysis_Main {
             unset($dom);
             rsort($data_array); //按年份和学期进行排序；
         } catch (Exception $ex) {
-            return new BaseMessage(3, self::$error->get(3));
+            BaseMessage::instance(3, self::$error->get(3))->show();
         }
         return $data_array;
     }
@@ -70,7 +70,7 @@ class Analysis_Main {
             $dom->clear();
             unset($dom);
         } catch (Exception $ex) {
-            return new BaseMessage(3, self::$error->get(3));
+            BaseMessage::instance(3, self::$error->get(3))->show();
         }
         return $data_array;
     }
@@ -97,10 +97,10 @@ class Analysis_Main {
                 $dom->clear();
                 unset($dom);
                 if ($data != NULL && $data != "") {
-                    return new BaseMessage('4', $data);
+                    BaseMessage::instance(4, '解析错误')->show();
                 }
             } catch (Exception $exc) {
-                return new BaseMessage(3, self::$error->get('3'));
+                BaseMessage::instance(3, self::$error->get(3))->show();
             }
         }
         return FALSE;

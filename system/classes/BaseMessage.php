@@ -7,6 +7,7 @@
  */
 class BaseMessage {
 
+    public static $m;
     private $code;
     private $data;
     private $message = 'success';
@@ -19,12 +20,24 @@ class BaseMessage {
         }
     }
 
+    public static function instance($code, $message, $data = NULL) {
+        self::$m = new BaseMessage($code, $message, $data);
+        return self::$m;
+    }
+
     public function getCode() {
         return $this->code;
     }
 
     public function getData() {
         return $this->data;
+    }
+
+    public function show() {
+        $message['code'] = $this->code;
+        $message['message'] = $this->message;
+        $message['data'] = $this->data;
+        echo json_encode($message);
     }
 
     public function __toString() {

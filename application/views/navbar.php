@@ -1,6 +1,6 @@
 <div class="navbar">
     <div class="navbar-inner">
-        <a class="brand" href="#"><?php echo $title ?></a>
+        <a class="brand" href="/"><?php echo $title ?></a>
         <?php
         $nav_arr = array();
         $current_action = Request::$current->action();
