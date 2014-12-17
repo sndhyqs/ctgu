@@ -16,9 +16,9 @@ abstract class Controller_Main extends Controller_Template {
     public function before() {
         if ($this->navbar_show) {
             $this->navbar = View::factory('navbar');
+            $this->navbar->year_array = array();
         }
         $this->title = '学习教程';
-        $this->navbar->year_array = array();
         parent::before();
     }
 
@@ -27,7 +27,10 @@ abstract class Controller_Main extends Controller_Template {
         $this->template->bind('title', $this->title);
         $this->template->bind('countent', $this->countent);
         $this->template->bind('navbar', $this->navbar);
-        $this->navbar->title = $this->title;
+         if ($this->navbar_show) {
+            $this->navbar->title = $this->title;
+        }
+       
 
         parent::after();
     }

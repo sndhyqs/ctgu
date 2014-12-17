@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The directory in which your application specific resources are located.
  * The application directory must contain the bootstrap.php file.
@@ -52,14 +51,13 @@ error_reporting(E_ALL | E_STRICT);
  *
  * @link http://kohanaframework.org/guide/using.configuration
  */
-
+ 
 // Set the full path to the docroot
 define('DOCROOT', realpath(dirname(__FILE__)).DIRECTORY_SEPARATOR);
-
 // Make the application relative to the docroot, for symlink'd index.php
 if ( ! is_dir($application) AND is_dir(DOCROOT.$application))
-	$application = DOCROOT.$application;
-
+	 $application = DOCROOT.$application;
+   
 // Make the modules relative to the docroot, for symlink'd index.php
 if ( ! is_dir($modules) AND is_dir(DOCROOT.$modules))
 	$modules = DOCROOT.$modules;
@@ -72,7 +70,6 @@ if ( ! is_dir($system) AND is_dir(DOCROOT.$system))
 define('APPPATH', realpath($application).DIRECTORY_SEPARATOR);
 define('MODPATH', realpath($modules).DIRECTORY_SEPARATOR);
 define('SYSPATH', realpath($system).DIRECTORY_SEPARATOR);
-
 // Clean up the configuration vars
 unset($application, $modules, $system);
 
