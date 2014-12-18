@@ -81,8 +81,9 @@ if (isset($_SERVER['SERVER_PROTOCOL'])) {
  * Note: If you supply an invalid environment name, a PHP warning will be thrown
  * saying "Couldn't find constant Kohana::<INVALID_ENV_NAME>"
  */
-Kohana::$environment = (in_array(substr($_SERVER['HTTP_HOST'], 0, 3), array('loc', 'dev'))) ? Kohana::DEVELOPMENT : Kohana::PRODUCTION;
 
+//Kohana::$environment = (in_array(substr($_SERVER['HTTP_HOST'], 0, 3), array('loc', 'dev'))) ? Kohana::DEVELOPMENT : Kohana::PRODUCTION;
+Kohana::$environment =  Kohana::DEVELOPMENT;
 /**
  * Initialize Kohana, setting the default options.
  *

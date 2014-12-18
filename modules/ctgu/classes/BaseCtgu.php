@@ -5,6 +5,7 @@
  * @author 晏青山
  * @datetime 2014-11-24  11:31:01
  * @version 1.0
+ * 基本的ctgu操作类，包含登陆操作，以及http请求;
  */
 class BaseCtgu {
 
@@ -34,30 +35,37 @@ class BaseCtgu {
             $this->login_tag = TRUE;
         }
     }
-    
+
     /**
      * 
      */
     public function login() {
-        echo "login start<br/>";
+        if (Kohana::$environment === Kohana::DEVELOPMENT)
+            echo "登陆方法开始<br/>";
         $check_code_url = $this->config->get('check_code');
-        echo "check code read<br/>";
+        if (Kohana::$environment === Kohana::DEVELOPMENT)
+            echo "读取验证码开始<br/>";
         try {
             $this->execute = Request::factory($check_code_url)->execute();
         } catch (Exception $e) {
             BaseMessage::instance(1, $this->error->get(1))->show();
+            exit();
         }
-        echo "check code check <br/>";
+        if (Kohana::$environment === Kohana::DEVELOPMENT)
+            echo "验证码检测 <br/>";
         if (!$this->set_check_code()) {
-            BaseMessage::instance(3, $this->error->get(3))->show();
+            BaseMessage::instance(3, "验证码解析失败")->show();
+            exit();
         }
         if ($this->cookie != NULL) {
-            echo "login <br/>";
+            if (Kohana::$environment === Kohana::DEVELOPMENT)
+                echo "开始登陆 <br/>";
             $http = new HttpClient($this->cookie);
             $login_html = $http->post($this->config->get('base'), $this->login_param);
-            $login_tag = Analysis_Main::get_login_message($login_html);
+            $login_tag = Analysis_Ctgu::get_login_message($login_html);
             if (is_bool($login_tag) && $login_tag == TRUE) {
-                echo "login success<br/>";
+                if (Kohana::$environment === Kohana::DEVELOPMENT)
+                    echo "登陆成功<br/>";
                 Cache::instance()->set('ctgu_' . $this->login_param['txtUserName'], $this->cookie, 1200);
                 $this->login_tag = TRUE;
                 return $this->login_tag;

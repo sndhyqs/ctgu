@@ -18,7 +18,7 @@ abstract class Controller_Main extends Controller_Template {
             $this->navbar = View::factory('navbar');
             $this->navbar->year_array = array();
         }
-        $this->title = '学习教程';
+        $this->title = '三大小助手';
         parent::before();
     }
 

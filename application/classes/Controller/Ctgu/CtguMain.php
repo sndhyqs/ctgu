@@ -31,6 +31,7 @@ class Controller_Ctgu_CtguMain extends Controller_Main {
         }
         $this->ctgu = new Ctgu($this->username, $this->password);
         if (!$this->ctgu->get_login_tag()) {
+            if (Kohana::$environment === Kohana::DEVELOPMENT)
             echo "登入<br/>";
             $login_tag = $this->ctgu->login();
             if ($login_tag === TRUE) {
@@ -39,6 +40,7 @@ class Controller_Ctgu_CtguMain extends Controller_Main {
                 echo $login_tag;
             }
         } else {
+            if (Kohana::$environment === Kohana::DEVELOPMENT)
             echo '缓存<br/>';
         }
     }

@@ -7,7 +7,7 @@
  */
 class Controller_Api_Ctgu extends Controller {
 
-    protected $ctgu;
+    protected $ctgu; //教务处的操作对象
     protected $username;
     protected $password;
     private $message;
@@ -31,7 +31,8 @@ class Controller_Api_Ctgu extends Controller {
         }
         $this->ctgu = new Ctgu($this->username, $this->password);
         if (!$this->ctgu->get_login_tag()) {
-            echo "登入<br/>";
+            if (Kohana::$environment === Kohana::DEVELOPMENT)
+                echo "登入<br/>";
             $login_tag = $this->ctgu->login();
             if ($login_tag === TRUE) {
                 Model::factory('user')->save_user($this->username, $this->password);
@@ -39,7 +40,8 @@ class Controller_Api_Ctgu extends Controller {
                 echo $login_tag;
             }
         } else {
-            echo '缓存<br/>';
+            if (Kohana::$environment === Kohana::DEVELOPMENT)
+                echo '缓存<br/>';
         }
     }
 

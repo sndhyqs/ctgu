@@ -37,7 +37,11 @@ class BaseMessage {
         $message['code'] = $this->code;
         $message['message'] = $this->message;
         $message['data'] = $this->data;
-        echo json_encode($message);
+        //开发环境下输出array
+        if (Kohana::$environment === Kohana::DEVELOPMENT)
+            print_r($message);
+        else
+            echo json_encode($message);
     }
 
     public function __toString() {

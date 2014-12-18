@@ -9,7 +9,7 @@
  * 
  * 解析html类
  */
-class Analysis_Main {
+class Analysis_Ctgu {
 
     public static $logined_html_length = 161;
     public static $config;
@@ -46,6 +46,7 @@ class Analysis_Main {
             rsort($data_array); //按年份和学期进行排序；
         } catch (Exception $ex) {
             BaseMessage::instance(3, self::$error->get(3))->show();
+            exit();
         }
         return $data_array;
     }
@@ -71,6 +72,7 @@ class Analysis_Main {
             unset($dom);
         } catch (Exception $ex) {
             BaseMessage::instance(3, self::$error->get(3))->show();
+            exit();
         }
         return $data_array;
     }
@@ -97,10 +99,12 @@ class Analysis_Main {
                 $dom->clear();
                 unset($dom);
                 if ($data != NULL && $data != "") {
-                    BaseMessage::instance(4, '解析错误')->show();
+                    BaseMessage::instance(4,$data)->show();
+                    exit();
                 }
             } catch (Exception $exc) {
                 BaseMessage::instance(3, self::$error->get(3))->show();
+                exit();
             }
         }
         return FALSE;
