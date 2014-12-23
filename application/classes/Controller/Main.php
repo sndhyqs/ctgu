@@ -23,7 +23,6 @@ abstract class Controller_Main extends Controller_Template {
     }
 
     public function after() {
-
         $this->template->bind('title', $this->title);
         $this->template->bind('countent', $this->countent);
         $this->template->bind('navbar', $this->navbar);

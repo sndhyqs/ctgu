@@ -9,13 +9,14 @@
 class Ctgu extends BaseCtgu {
 
     public function get_score() {
-        echo "score start<br/>";
+        if (Kohana::$environment === Kohana::DEVELOPMENT)
+            echo "score start<br/>";
         if ($this->get_login_tag()) {
-            echo "scoreing <br/>";
+            if (Kohana::$environment === Kohana::DEVELOPMENT)
+                echo "scoreing <br/>";
             $score_url = $this->config->get('score');
             $score_html = $this->get($score_url);
-
-            return Analysis_Main::get_score($score_html);
+            return Analysis_Ctgu::get_score($score_html);
         }
     }
 
@@ -23,7 +24,7 @@ class Ctgu extends BaseCtgu {
         if ($this->get_login_tag()) {
             $course_url = $this->config->get('course');
             $coure_html = $this->get($course_url);
-            return Analysis_Main::get_course($coure_html);
+            return Analysis_Ctgu::get_course($coure_html);
         }
     }
 

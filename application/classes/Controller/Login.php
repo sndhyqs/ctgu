@@ -11,4 +11,13 @@ class Controller_Login extends Controller_Main {
         $this->countent = $countent;
     }
 
+    public function before() {
+        $username = Session::instance()->get('username');
+        $password = Session::instance()->get('password');
+        if ($username != NULL && $password != NULL) {
+            $this->redirect('/ctgu');
+        }
+        parent::before();
+    }
+
 }

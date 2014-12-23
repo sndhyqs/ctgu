@@ -12,13 +12,12 @@ class Controller_Ctgu_Ctgu extends Controller_Ctgu_CtguMain {
         //获取查询的年份
         $year = $this->request->query('year');
         $this->countent = View::factory('score_list');
-        if ($this->ctgu->get_login_tag()) {
-            $this->set_session();
-            $score_array = Cache::instance()->get($this->username . "course");
+        if ($this->logined) {
+            $score_array = Cache::instance()->get($this->username . "score");
             if ($score_array == NULL) {
                 $score_array = $this->ctgu->get_score();
             }
-            Cache::instance()->set($this->username . "course", $score_array, 1200);
+            Cache::instance()->set($this->username . "score", $score_array, 1200);
             //设置导航的年份列表
             $year_array = $this->ctgu->get_year_array($score_array);
             $this->navbar->year_array = $year_array;
@@ -35,27 +34,16 @@ class Controller_Ctgu_Ctgu extends Controller_Ctgu_CtguMain {
             $this->countent->score_array = array();
         }
     }
-    
-    protected function check_user($user, $password) {
-        $this->ctgu = new Ctgu($this->username, $this->password);
-        if (!$this->ctgu->get_login_tag()) {
-            echo "登入<br/>";
-            $login_tag = $this->ctgu->login();
-            if ($login_tag === TRUE) {
-                Model::factory('user')->save_user($this->username, $this->password);
-            } else {
-                echo $login_tag;
-            }
-        } else {
-            echo '缓存<br/>';
-        }
-    }
 
-        public function action_course() {
+    public function action_course() {
         $this->title = '课表';
         $this->countent = View::factory('course');
-        if ($this->ctgu->get_login_tag()) {
-            $course_array = $this->ctgu->get_course();
+        if ($this->logined) {
+            $course_array = Cache::instance()->get($this->username . "course");
+            if ($course_array == NULL) {
+                $course_array = $this->ctgu->get_course();
+            }
+             Cache::instance()->set($this->username . "course", $course_array, 1200);
             $this->countent->course_array = $course_array;
         }
     }
@@ -69,13 +57,8 @@ class Controller_Ctgu_Ctgu extends Controller_Ctgu_CtguMain {
             $this->ctgu->login_out();
             Cache::instance()->delete($this->username . "course");
             Session::instance()->destroy();
-            $this->redirect('/');
+            $this->redirect('/login');
         }
-    }
-
-    public function set_session() {
-        Session::instance()->set("username", $this->username);
-        Session::instance()->set("password", $this->password);
     }
 
 }

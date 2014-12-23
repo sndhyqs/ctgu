@@ -42,6 +42,7 @@ class BaseMessage {
             print_r($message);
         else
             echo json_encode($message);
+        
     }
 
     public function __toString() {

@@ -10,10 +10,12 @@ class Model_User extends ORM {
     public function save_user($username, $password) {
         $user = ORM::factory('user')->where('username', '=', $username);
         if ($user->count_all() > 0) {
-            echo 'user 存在';
+            if (Kohana::$environment === Kohana::DEVELOPMENT)
+                echo 'user 存在';
             $older_user = ORM::factory('user')->where('username', '=', $username)->find();
             if ($older_user->password != $password) {
-                echo '密码不一样';
+                if (Kohana::$environment === Kohana::DEVELOPMENT)
+                    echo '密码不一样';
                 $model = ORM::factory('user', $older_user->id);
                 $model->set('password', $password);
                 $model->save();

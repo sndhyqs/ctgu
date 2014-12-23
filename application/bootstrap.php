@@ -83,7 +83,7 @@ if (isset($_SERVER['SERVER_PROTOCOL'])) {
  */
 
 //Kohana::$environment = (in_array(substr($_SERVER['HTTP_HOST'], 0, 3), array('loc', 'dev'))) ? Kohana::DEVELOPMENT : Kohana::PRODUCTION;
-Kohana::$environment =  Kohana::DEVELOPMENT;
+Kohana::$environment =  Kohana::PRODUCTION;
 /**
  * Initialize Kohana, setting the default options.
  *
