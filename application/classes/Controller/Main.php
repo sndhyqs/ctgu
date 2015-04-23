@@ -26,10 +26,10 @@ abstract class Controller_Main extends Controller_Template {
         $this->template->bind('title', $this->title);
         $this->template->bind('countent', $this->countent);
         $this->template->bind('navbar', $this->navbar);
-         if ($this->navbar_show) {
+        if ($this->navbar_show) {
             $this->navbar->title = $this->title;
         }
-       
+
 
         parent::after();
     }

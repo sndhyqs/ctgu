@@ -81,9 +81,8 @@ if (isset($_SERVER['SERVER_PROTOCOL'])) {
  * Note: If you supply an invalid environment name, a PHP warning will be thrown
  * saying "Couldn't find constant Kohana::<INVALID_ENV_NAME>"
  */
-
 //Kohana::$environment = (in_array(substr($_SERVER['HTTP_HOST'], 0, 3), array('loc', 'dev'))) ? Kohana::DEVELOPMENT : Kohana::PRODUCTION;
-Kohana::$environment =  Kohana::PRODUCTION;
+Kohana::$environment = Kohana::PRODUCTION;
 /**
  * Initialize Kohana, setting the default options.
  *
@@ -101,7 +100,7 @@ Kohana::$environment =  Kohana::PRODUCTION;
  */
 Kohana::init(array(
     'base_url' => '',
-    'index_file' => '',
+    'index_file' => 'index.php',
     'errors' => Kohana::$environment === Kohana::DEVELOPMENT,
     'caching' => Kohana::$environment === Kohana::PRODUCTION,
     'profile' => Kohana::$environment === Kohana::DEVELOPMENT OR ( isset($_GET['profile'])),
@@ -132,7 +131,7 @@ Kohana::modules(array(
     // 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
     'ctgu' => MODPATH . 'ctgu',
 ));
-Cookie::$domain = '.ctguhelp.com';
+Cookie::$domain = '.ctgu.com';
 Cookie::$salt = "1111111111111111111111111111111111111111111";
 /**
  * Set the routes. Each route must have a minimum of a name, a URI and a set of

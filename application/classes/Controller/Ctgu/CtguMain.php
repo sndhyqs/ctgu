@@ -74,7 +74,7 @@ class Controller_Ctgu_CtguMain extends Controller_Main {
             //返回false进行登录
             return $this->logined;
         } else {
-            $this->redirect('/login');
+            $this->redirect('login');
             exit();
         }
     }

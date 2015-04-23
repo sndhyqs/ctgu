@@ -1,4 +1,4 @@
-<form class="form-horizontal"  action="/ctgu" method="Get">
+<form class="form-horizontal" action="<?php echo Kohana::get_base_uri() . 'ctgu' ?>"  method="Get">
     <div class="control-group">
         <label class="control-label" >学号</label>
         <div class="controls">

@@ -15,7 +15,7 @@ class Controller_Login extends Controller_Main {
         $username = Session::instance()->get('username');
         $password = Session::instance()->get('password');
         if ($username != NULL && $password != NULL) {
-            $this->redirect('/ctgu');
+            $this->redirect('ctgu');
         }
         parent::before();
     }

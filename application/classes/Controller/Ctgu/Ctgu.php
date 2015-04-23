@@ -57,7 +57,7 @@ class Controller_Ctgu_Ctgu extends Controller_Ctgu_CtguMain {
             $this->ctgu->login_out();
             Cache::instance()->delete($this->username . "course");
             Session::instance()->destroy();
-            $this->redirect('/login');
+            $this->redirect('login');
         }
     }
 
